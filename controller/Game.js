@@ -22,13 +22,13 @@ class Game{
             energy: 100,
             mana: 20,
             fight: {
-                punch: { damage: 15, energy: -2, mana: 0 },
-                kick: { damage: 5, energy: -2, mana: 0 },
+                punch: [ { damage: 15, energy: -2, mana: 0, name: "PUNCH 1" } ],
+                kick: [ { damage: 5, energy: -2, mana: 0, name: "KICK 1" } ],
                 skills: [
-                    { damage: 42, energy: -5, mana: -6 },
-                    { damage: 60, energy: -6, mana: -10 }
+                    { damage: 42, energy: -5, mana: -6, name: "SKILL A" },
+                    { damage: 60, energy: -6, mana: -10, name: "SKILL B" }
                 ],
-                healthy: { damage: 0, energy: 10, mana: 5 }
+                healthy: [ { damage: 0, energy: 10, mana: 5, name: "HEALTHY A" } ]
             }
         };
         

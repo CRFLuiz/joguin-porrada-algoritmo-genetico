@@ -16,15 +16,15 @@ class Room{
         const game = this.looby[token];
         game.getRandomMatch();
 
-        return this.describeNpc(token);
+        return this.describeEnemy(token);
     }
 
-    describeNpc(token){
-        return this.looby[token].match.npc || new Error('Token inválido');
+    describeEnemy(token){
+        return this.looby[token].match.enemy || new Error('Token inválido');
     }
 
     describePlayer(token){
-        return this.looby[token].match.char || new Error('Token inválido');
+        return this.looby[token].match.player || new Error('Token inválido');
     }
 
     initBattle(token){

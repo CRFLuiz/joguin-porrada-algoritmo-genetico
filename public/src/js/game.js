@@ -1,111 +1,142 @@
-const startGame = async () => {
-    const headers = new Headers();
-    const body = JSON.stringify({ token: game.token });
-    headers.append('Content-Type', 'application/json');
+const Game = function(){
+	this.game = {};
 
-    return fetch('/game/battle/init', { method: 'POST', headers, body })
-        .then(res => res.json())
-        .then(res => res)
-        .catch(er => console.error(er.message));
+	this.enemy = {
+		name: document.getElementById("enemy-name"),
+		img: document.getElementById("enemy-img"),
+		life: document.getElementById("enemy-life"),
+		energy: document.getElementById("enemy-energy"),
+		mana: document.getElementById("enemy-mana")
+	};
+
+	this.player = {
+		name: document.getElementById("player-name"),
+		img: document.getElementById("player-img"),
+		life: document.getElementById("player-life"),
+		energy: document.getElementById("player-energy"),
+		mana: document.getElementById("player-mana")
+	};
+	
+	
 }
 
-const initializeVarGame = () => {
-    game.round = 5;
-    game.acts = [];
+Game.prototype.startGame = async function(){
+	const headers = new Headers();
+	const body = JSON.stringify({ token: this.game.token });
+	headers.append('Content-Type', 'application/json');
+
+	return fetch('/game/battle/init', { method: 'POST', headers, body })
+		.then(res => res.json())
+		.then(res => res)
+		.catch(er => console.error(er.message));
 }
 
-const loadStats = () => {
-    const npcStats = {
-        life: document.getElementById('spn-npc-life'),
-        energy: document.getElementById('spn-npc-energy'),
-        mana: document.getElementById('spn-npc-mana')
-    };
-    npcStats.life.innerText = game.npc.life;
-    npcStats.energy.innerText = game.npc.energy;
-    npcStats.mana.innerText = game.npc.mana;
-    
-    const playerStats = {
-        life: document.getElementById('spn-player-life'),
-        energy: document.getElementById('spn-player-energy'),
-        mana: document.getElementById('spn-player-mana')
-    };
-    playerStats.life.innerText = game.player.life;
-    playerStats.energy.innerText = game.player.energy;
-    playerStats.mana.innerText = game.player.mana;
+Game.prototype.initializeVarGame = function(){
+	// this.game.round = 0;
+	// this.game.acts = [];
+}
+
+Game.prototype.loadStats = function(){
+	// LOAD ENEMY STATS
+	const enemyStats = {
+		life: document.getElementById('spn-enemy-life'),
+		energy: document.getElementById('spn-enemy-energy'),
+		mana: document.getElementById('spn-enemy-mana')
+	};
+	enemyStats.life.innerText = this.game.enemy.life;
+	enemyStats.energy.innerText = this.game.enemy.energy;
+	enemyStats.mana.innerText = this.game.enemy.mana;
+	
+	// LOAD PLAYER STATS
+	const playerStats = {
+		life: document.getElementById('spn-player-life'),
+		energy: document.getElementById('spn-player-energy'),
+		mana: document.getElementById('spn-player-mana')
+	};
+	playerStats.life.innerText = this.game.player.life;
+	playerStats.energy.innerText = this.game.player.energy;
+	playerStats.mana.innerText = this.game.player.mana;
 };
 
-const loadView = () => {
-    npc.img.setAttribute('data-src', `src/img/${game.npc.image}`);
-    npc.life.setAttribute('max', game.npc.life);
-    npc.life.setAttribute('value', game.npc.life);
+Game.prototype.loadViewActions = function(){
+	const _el = new Element();
+	const _req = new RequestApi();
 
-    player.life.setAttribute('max', game.player.life);
-    player.life.setAttribute('value', game.player.life);
+	const btnHits = _el.button({ selector: { id: "player-actions-hits" } });
+	const btnSkills = _el.button({ selector: { id: "player-actions-skills" } });
+	const btnHealthy = _el.button({ selector: { id: "player-actions-healthy" } });
+	
+	btnHits.cleanup();
+	btnSkills.cleanup();
+	btnHealthy.cleanup();
 
-    npc.energy.setAttribute('max', game.npc.energy);
-    npc.energy.setAttribute('value', game.npc.energy);
+	btnHits.create([
+		{ id: "btn-player-punch", classColor: "secondary", className: "btn-player-action", callback: _req.attack, inner: { icon: "forward", text: "punch" } },
+		{ id: "btn-player-kick", classColor: "secondary", className: "btn-player-action", callback: _req.attack, inner: { icon: "forward", text: "kick" } }
+	]);
 
-    player.energy.setAttribute('max', game.player.energy);
-    player.energy.setAttribute('value', game.player.energy);
+	btnSkills.create([
+		{ id: "btn-player-skillA", classColor: "danger", className: "btn-player-action", callback: _req.attack, inner: { icon: "forward", text: "Skill 1" } },
+		{ id: "btn-player-skillB", classColor: "danger", className: "btn-player-action", callback: _req.attack, inner: { icon: "forward", text: "Skill 2" } }
+	]);
 
-    npc.mana.setAttribute('max', game.npc.mana);
-    npc.mana.setAttribute('value', game.npc.mana);
+	btnHealthy.create([
+		{ id: "btn-player-healthy", classColor: "primary", className: "btn-player-action", callback: _req.attack, inner: { icon: "forward", text: "Healthy" } }
+	]);
 
-    player.mana.setAttribute('max', game.player.mana);
-    player.mana.setAttribute('value', game.player.mana);
-
-    npc.name.innerText = game.npc.name;
+	// btnSkills.remove([{ id: "btn-player-skillA" }]); //EXAMPLE TO REMOVE BUTTON
 };
 
-const getMatch = async () => {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    const body = JSON.stringify({ token: game.token });
-    return fetch('/game/find', { method: 'POST', headers, body })
-        .then(res => res.json())
-        .then(res => res);
+Game.prototype.loadView = function(){
+	// UPDATE ENEMY IMAGE AND PROGRESS BARS
+	this.enemy.name.innerText = this.game.enemy.name;
+	this.enemy.img.setAttribute('data-src', `src/img/${this.game.enemy.image}`);
+
+	this.enemy.life.setAttribute('max', this.game.enemy.life);
+	this.enemy.life.setAttribute('value', this.game.enemy.life);
+	
+	this.enemy.energy.setAttribute('max', this.game.enemy.energy);
+	this.enemy.energy.setAttribute('value', this.game.enemy.energy);
+	
+	this.enemy.mana.setAttribute('max', this.game.enemy.mana);
+	this.enemy.mana.setAttribute('value', this.game.enemy.mana);
+
+	// UPDATE PLAYER IMAGE AND PROGRESS BARS
+	this.player.life.setAttribute('max', this.game.player.life);
+	this.player.life.setAttribute('value', this.game.player.life);
+
+	this.player.energy.setAttribute('max', this.game.player.energy);
+	this.player.energy.setAttribute('value', this.game.player.energy);
+
+	this.player.mana.setAttribute('max', this.game.player.mana);
+	this.player.mana.setAttribute('value', this.game.player.mana);
+	
+	// CREATE BUTTONS WITH PLAYER ACTIONS
+	this.loadViewActions();
 };
 
-const getGame = async () => {
-    return fetch('/game', { method: 'GET' })
-        .then(res => res.json())
-        .then(res => res);
+Game.prototype.getMatch = async function(){
+	const headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	const body = JSON.stringify({ token: this.game.token });
+	return fetch('/game/find', { method: 'POST', headers, body })
+		.then(res => res.json())
+		.then(res => res);
 };
 
-const init = async () => {
-    game.token = await getGame()
-        .then(res => { if(res.ok) return res; else throw new Error('Erro ao tentar buscar o token') })
-        .then(res => res.token);
-    let { npc, player } = await getMatch()
-        .then(res => { if(res.ok) return res; else throw new Error('Erro ao tentar buscar a partida') })
-        .then(res => res);
-    game.npc = npc;
-    game.player = player;
+Game.prototype.getGame = async function(){
+	return fetch('/game', { method: 'GET' })
+		.then(res => res.json())
+		.then(res => res);
 };
 
-// INITIALIZERS:
-const game = {};
-
-const npc = {
-    name: document.getElementById("npc-name"),
-    img: document.getElementById("npc-img"),
-    life: document.getElementById("npc-life"),
-    energy: document.getElementById("npc-energy"),
-    mana: document.getElementById("npc-mana")
+Game.prototype.init = async function(){
+	this.game.token = await this.getGame()
+		.then(res => { if(res.ok) return res; else throw new Error('Erro ao tentar buscar o token') })
+		.then(res => res.token);
+	let { enemy, player } = await this.getMatch()
+		.then(res => { if(res.ok) return res; else throw new Error('Erro ao tentar buscar a partida') })
+		.then(res => res);
+	this.game.enemy = enemy;
+	this.game.player = player;
 };
-
-const player = {
-    name: document.getElementById("player-name"),
-    img: document.getElementById("player-img"),
-    life: document.getElementById("player-life"),
-    energy: document.getElementById("player-energy"),
-    mana: document.getElementById("player-mana")
-};
-
-init()
-    .then(() => loadView())
-    .then(() => loadStats())
-    .then(() => initializeVarGame())
-    .then(() => startGame())
-    
-    .then(r => console.log(r));

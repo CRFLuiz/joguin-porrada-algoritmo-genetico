@@ -12,53 +12,53 @@
 		<div class="uk-padding" uk-grid>
 			<div class="uk-width-1-3">
 				<div class="game">
-					<div class="npc">
-						<!-- <div class="npc-img uk-margin uk-background-cover" data-src="src/img/npc01.jpg" style="height: 700px; background-position: center top;" uk-img> -->
-						<!-- <div class="npc-img uk-margin uk-background-contain" data-src="src/img/npc01.jpg" style="height: 700px;" uk-img> -->
-						<p id="npc-name" class="uk-text-center uk-text-lead"></p>
-						<div class="npc-stats" uk-grid>
+					<div class="enemy">
+						<!-- <div class="enemy-img uk-margin uk-background-cover" data-src="src/img/chars/viking01.jpg" style="height: 700px; background-position: center top;" uk-img> -->
+						<!-- <div class="enemy-img uk-margin uk-background-contain" data-src="src/img/chars/viking01.jpg" style="height: 700px;" uk-img> -->
+						<p id="enemy-name" class="uk-text-center uk-text-lead"></p>
+						<div class="enemy-stats" uk-grid>
 							<div class="uk-width-1-3">
-								<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">Vida</p>
-								<progress id="npc-life" class="uk-progress progress-green" value="" max=""></progress>
+								<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">life</p>
+								<progress id="enemy-life" class="uk-progress progress-green" value="" max=""></progress>
 							</div>
 							<div class="uk-width-1-3">
-								<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">Energia</p>
-								<progress id="npc-energy" class="uk-progress progress-gold" value="" max=""></progress>
+								<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">energy</p>
+								<progress id="enemy-energy" class="uk-progress progress-gold" value="" max=""></progress>
 							</div>
 							<div class="uk-width-1-3">
 								<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">Mana</p>
-								<progress id="npc-mana" class="uk-progress progress-cyan" value="" max=""></progress>
+								<progress id="enemy-mana" class="uk-progress progress-cyan" value="" max=""></progress>
 							</div>
 						</div>
-						<div id="npc-img" class="uk-margin uk-background-contain" data-src="" height="600" style="height: 600px;" uk-img></div>
+						<div id="enemy-img" class="uk-margin uk-background-contain" data-src="" height="600" style="height: 600px;" uk-img></div>
 					</div>
 					
 				</div>
 			</div>
 			<div class="uk-width-1-3">
-				<p class="uk-text-center uk-text-lead">NPC Stats</p>
+				<p class="uk-text-center uk-text-lead">ENEMY Stats</p>
 				<div>
-					<p>Vida: <span id="spn-npc-life"></span></p>
-					<p>Energia: <span id="spn-npc-energy"></span></p>
-					<p>Mana: <span id="spn-npc-mana"></span></p>
+					<p>life: <span id="spn-enemy-life"></span></p>
+					<p>energy: <span id="spn-enemy-energy"></span></p>
+					<p>Mana: <span id="spn-enemy-mana"></span></p>
 				</div>
 			</div>
 			<div class="uk-width-1-3">
 				<p class="uk-text-center uk-text-lead">Player Stats</p>
 				<div>
-					<p>Vida: <span id="spn-player-life"></span></p>
-					<p>Energia: <span id="spn-player-energy"></span></p>
+					<p>life: <span id="spn-player-life"></span></p>
+					<p>energy: <span id="spn-player-energy"></span></p>
 					<p>Mana: <span id="spn-player-mana"></span></p>
 				</div>
 
 				<div class="Player">
 					<div class="Player-stats" uk-grid>
 						<div class="uk-width-1-3">
-							<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">Vida</p>
+							<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">life</p>
 							<progress id="player-life" class="uk-progress progress-green" value="" max=""></progress>
 						</div>
 						<div class="uk-width-1-3">
-							<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">Energia</p>
+							<p class="uk-text-center uk-text-meta uk-text-uppercase uk-text-bold">energy</p>
 							<progress id="player-energy" class="uk-progress progress-gold" value="" max=""></progress>
 						</div>
 						<div class="uk-width-1-3">
@@ -67,18 +67,27 @@
 						</div>
 					</div>
 					<div class="Player-actions" uk-grid>
-						<button id="btn-player-punch" class="uk-button uk-button-default btn-player-action">
-							<div class="uk-width-1-4 uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Soco</div>
-						</button>
-						<button id="btn-player-kick" class="uk-button uk-button-default btn-player-action">
-							<div class="uk-width-1-4 uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Chute</div>
-						</button>
-						<button id="btn-player-skillA" class="uk-button uk-button-default btn-player-action">
-							<div class="uk-width-1-4 uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Habilidade 1</div>
-						</button>
-						<button id="btn-player-skillB" class="uk-button uk-button-default btn-player-action">
-							<div class="uk-width-1-4 uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Habilidade 2</div>
-						</button>
+						<div id="player-actions-hits" class="uk-width-1-1">
+							<button id="btn-player-punch" class="uk-button uk-button-secondary btn-player-action">
+								<div class="uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>punch</div>
+							</button>
+							<button id="btn-player-kick" class="uk-button uk-button-secondary btn-player-action">
+								<div class="uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>kick</div>
+							</button>
+						</div>
+						<div id="player-actions-skills" class="uk-width-1-1">
+							<button id="btn-player-skillA" class="uk-button uk-button-danger btn-player-action">
+								<div class="uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Skill 1</div>
+							</button>
+							<button id="btn-player-skillB" class="uk-button uk-button-danger btn-player-action">
+								<div class="uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Skill 2</div>
+							</button>
+						</div>
+						<div id="player-actions-healthy" class="uk-width-1-1">
+							<button id="btn-player-skillB" class="uk-button uk-button-primary btn-player-action">
+								<div class="uk-text-center uk-text-uppercase"><span uk-icon="forward"></span>Health</div>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -87,5 +96,8 @@
 	<!-- <script src="src/ratchet/js/ratchet.min.js"></script> -->
 	<script src="src/uikit/js/uikit.min.js"></script>
 	<script src="src/uikit/js/uikit-icons.min.js"></script>
+	<script src="src/js/Element.js"></script>
+	<script src="src/js/RequestApi.js"></script>
 	<script src="src/js/game.js"></script>
+	<script src="src/js/orchestrator.js"></script>
 </html>

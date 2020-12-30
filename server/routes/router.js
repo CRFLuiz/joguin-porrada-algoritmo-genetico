@@ -9,9 +9,9 @@ const router = server => {
 
     server.post('/game/find', (req, res) => {
         const { token } = req.body;
-        const npc = room.loadsARandomMatch(token);
+        const enemy = room.loadsARandomMatch(token);
         const player = room.describePlayer(token);
-        return res.json({ ok: true, npc, player });
+        return res.json({ ok: true, enemy, player });
     });
 
     server.post('/game/battle/init', (req, res) => {
