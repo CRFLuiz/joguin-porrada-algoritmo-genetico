@@ -22,10 +22,12 @@ Element.prototype.button = function(container){
 				let spn = document.createElement("span");
 				let txt = document.createTextNode(e.inner.text);
 
-				btn.onclick = () => e.callback(e.classColor, e.inner.text);
+				// CALLBACK TO EXAMPLE
+				btn.onclick = e.callback ? () => e.callback() : () => null;
 				
 				btn.id = e.id;
 				btn.className = `uk-button ${e.classColor ? "uk-button-"+e.classColor : ""} ${e.className}`;
+				if(!e.enabled) btn.setAttribute('disabled', true);
 				div.className = `uk-text-center ${e.inner.upper ? "uk-text-uppercase" : ""}`;
 				
 				if(e.inner.icon){
@@ -51,7 +53,7 @@ Element.prototype.button = function(container){
 			});
 			selector.innerHTML = html;
 		},
-		// REMOVE BUTTO USING Element.remove
+		// REMOVE BUTTON USING Element.remove
 		remove: function(btns){
 			if(!Array.isArray(btns)) throw new Error("The Element.button.create must receive an Array as argument.");
 			btns.forEach(e => {

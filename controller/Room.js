@@ -20,17 +20,22 @@ class Room{
     }
 
     describeEnemy(token){
-        return this.looby[token].match.enemy || new Error('Token inválido');
+        return this.looby[token].match.battle.enemy || new Error('Token inválido');
     }
 
     describePlayer(token){
-        return this.looby[token].match.player || new Error('Token inválido');
+        return this.looby[token].match.battle.player || new Error('Token inválido');
     }
 
-    initBattle(token){
-        this.looby[token].match.initBattle();
+    turnBattle(token){
+        this.looby[token].match.turnBattle();
         return this.looby[token].match.battle;
-    }
+	}
+	
+	attack(token, action){
+		if(this.looby[token].match.playerAttack(action)) return this.looby[token].match.battle;
+		throw new Error('Error on Room.attack()');
+	}
 
     getRound(token){
         const battle = this.looby[token].match.battle;

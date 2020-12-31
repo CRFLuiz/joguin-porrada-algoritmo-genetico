@@ -16,13 +16,23 @@ const router = server => {
 
     server.post('/game/battle/init', (req, res) => {
         const { token } = req.body;
-        const battle = room.initBattle(token);
+        const battle = room.turnBattle(token);
         if(battle !== undefined && battle !== null){
             let response = { ok: true, playerTime: true, battle };
             return res.json(response);
         }
         return res.json({ ok: false });
-    });
+	});
+	
+	server.post('/game/battle/attack', (req, res) => {
+		const { token, action } = req.body;
+		const battle = room.attack(token, action);
+        if(battle !== undefined && battle !== null){
+            let response = { ok: true, playerTime: true, battle };
+            return res.json(response);
+        }
+        return res.json({ ok: false });
+	});
 
     server.route('/game/battle/round')
         .get((req, res) => {

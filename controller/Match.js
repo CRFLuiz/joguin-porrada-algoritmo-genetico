@@ -2,13 +2,12 @@ import Enemy from '../model/Enemy.js';
 
 class Match {
     constructor(player){
-        this.player = player;
-        this.battle = {};
+        this.battle = { player, round: -1, actions: [] };
     }
 
     getARandomMatch(){
         let enemy = new Enemy();
-        this.enemy = enemy.getRandomEnemy();
+        this.battle.enemy = enemy.getRandomEnemy();
     }
 
     verifySimpleEnergyMana(actObj, stats){
@@ -22,15 +21,6 @@ class Match {
 		
 		return { ...actObj, enabled };
     }
-
-    // verifyArrayEnergyMana(actObj, stats){
-    //     let phases = { recovery: { energy: false, mana: false}, attack: { energy: false, mana: false } };
-    //     if(actObj.energy <= 0 && Math.abs(actObj.energy) < stats.energy) phases.attack.energy = true;
-    //     if(actObj.mana <= 0 && Math.abs(actObj.mana) < stats.mana) phases.attack.mana = true;
-    //     if(actObj.energy > 0) phases.recovery.energy = true;
-    //     if(actObj.mana > 0) phases.recovery.mana = true;
-    //     if((phases.recovery.energy || phases.recovery.mana) || (phases.attack.energy && phases.attack.mana)) return true;
-    // }
 
     verifyEnergyMana(actObj, stats){
         if(Array.isArray(actObj)){
@@ -56,17 +46,28 @@ class Match {
         return _allowedActions;
     }
 
-    initBattle(){
-        if(!(this.enemy !== undefined && this.enemy !== null)){
+    turnBattle(){
+        if(!(this.battle.enemy !== undefined && this.battle.enemy !== null)){
             return new Error("Don't exists ENEMY to the battle.")
         }
-        this.battle.round = 0;
-        this.battle.enemy = this.enemy;
-        this.battle.player = this.player;
-        this.battle.actions = [];
+        this.battle.round += 1;
         this.battle.actions = this.getAllowedActions('player');
         return true;
-    }
+	}
+	
+	playerAttack(action){
+		if(action.enabled){
+			let enemyNewLife = this.battle.enemy.life - action.damage;
+			
+			let playerNewEnergy = this.battle.player.energy + action.energy;
+			let playerNewMana = this.battle.player.mana + action.mana;
+
+			this.battle.enemy = { ...this.battle.enemy, life: enemyNewLife };
+			this.battle.player = { ...this.battle.player, energy: playerNewEnergy, mana: playerNewMana };
+			return this.turnBattle();
+		}
+		return false;
+	}
 }
 
 export default Match;
